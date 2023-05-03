@@ -14,9 +14,8 @@ public:
     Universe(bool*);
 
     void initialize();
-
     void start();
-    int countAliveNeighbors(int, int) const;
+    bool getState(int, int) const;
 
 private:
     Cell* cells[32][32];
@@ -24,8 +23,9 @@ private:
     bool* run;
 
     // utility function
+    int countAliveNeighbors(int, int) const;
     void nextGeneration();
-    void holdScreen(int);
+    void holdScreen(int) const;
 };
 
 #endif // UINVERSE_H

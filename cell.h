@@ -22,6 +22,9 @@ private:
     int x_idx;
     int y_idx;
     bool state;
+
+    // utility functions
+    static int generateRandomNumber(unsigned, unsigned);
 };
 
 #endif // CELL_H

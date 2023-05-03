@@ -5,17 +5,24 @@
 #include <QStyle>
 #include <ctime>
 
+int Cell::generateRandomNumber(unsigned lBound, unsigned uBound) {
+    // static here gurantees that we use the same seed for all random values
+    static std::default_random_engine engine{
+        static_cast<unsigned int>(std::time(0))
+    };
+
+    static std::uniform_int_distribution<unsigned int> random{ lBound, uBound };
+
+    return random(engine);
+}
+
 Cell::Cell(Universe* aUniverse, int x, int y)
     : universe{ aUniverse }
     , x_idx{ x }
     , y_idx{ y }
 {
-    // static here guarntees that we use the same seed for all randomized values
-    static std::default_random_engine engine{
-        static_cast<unsigned int>(std::time(0)) };
-    std::uniform_int_distribution<unsigned int> randomValue{ 1, 10 };
-
-    if (randomValue(engine) == 1)
+    int randomValue = generateRandomNumber(1, 10);
+    if (randomValue == 1) // 10% chance to be alive cell
         state = true;
     else
         state = false;
@@ -43,19 +50,8 @@ bool Cell::State() const {
 }
 
 
-void Cell::updateState()
-{
-    int neighbors = universe->countAliveNeighbors(x_idx, y_idx);
-
-    if (State() && neighbors < 2) {
-        state = false;
-    }
-    else if (State() && neighbors > 3) {
-        state = false;
-    }
-    else if (!State() && neighbors == 3) {
-        state = true;
-    }
+void Cell::updateState() {
+    state = universe->getState(x_idx, y_idx);
 
     this->setEnabled(State());
     this->setProperty("enabled", State());
