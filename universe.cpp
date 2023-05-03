@@ -5,6 +5,7 @@
 Universe::Universe(bool* aRun)
     : run{ aRun }
 {
+    // initialize hidden borders
     for (int i : {0, 31}) {
         for (int j{0}; j < 32; ++j) {
             cells[i][j] = new Cell(i, j);

@@ -20,6 +20,7 @@ public:
 
 private:
     Cell* cells[32][32];
+    bool states[32][32];
     bool* run;
 
     // utility function
